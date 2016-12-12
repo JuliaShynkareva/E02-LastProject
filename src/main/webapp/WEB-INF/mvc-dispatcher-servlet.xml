@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+    <context:component-scan base-package="Controller"/>
+    <context:component-scan base-package="Converter"/>
+    <context:component-scan base-package="DAO"/>
+    <context:component-scan base-package="DTO"/>
+    <context:component-scan base-package="Entity"/>
+    <context:component-scan base-package="Service"/>
+    <context:component-scan base-package="Validator"/>
+
+    <context:annotation-config />
+    <mvc:annotation-driven />
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
+    </bean>
+
+    <!-- Определение источника данных - мост между СУБД и Hibernate.-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/applicationservice"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!-- Фабрика, которая будет строить Hibernate-сессии -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- бины снизу как бы ссылаются на конфигурационный файл hibernate-cfg, настройки которого описаны в dataSource
+        поэтому у нас hibernate.cfg.xml не используется   -->
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="Entity"/>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="appValidator" class="Validator.ApplicationValidator"/>
+    <bean id="emplValidator" class="Validator.EmployeeValidator"/>
+    <bean id="clientValidator" class="Validator.ClientValidator"/>
+
+    <!-- СЛЕДУЮЩАЯ секция для того, чтобы работал механизм транзакций с использованием @Transactional  -->
+    <!--  tx:annotation-driven включает механизм управления транзакциями через аннотации -->
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    <!-- Менеджер транзакций-->
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <import resource="application-security.xml" />
+
+
+
+    <!--<sec:global-method-security secured-annotations="enabled"
+                                pre-post-annotations="enabled"
+                                jsr250-annotations="enabled"/>-->
+
+</beans>

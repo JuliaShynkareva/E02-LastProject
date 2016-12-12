@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
+
+       <http auto-config="true">
+           <remember-me
+                   key="myAppKey"
+                   token-repository-ref="tokenRepository"
+                   token-validity-seconds="1800"
+                   remember-me-parameter="remember-me-parameter"
+                   remember-me-cookie="remember-me-cookieName"/>
+
+           <access-denied-handler error-page="/accessDenied"/>
+
+           <intercept-url pattern="/user" access="hasRole('ROLE_USER')" />
+           <intercept-url pattern="/client/**" access="hasRole('ROLE_USER')" />
+           <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+           <intercept-url pattern="/employee/Web/**" access="hasRole('ROLE_WEB')" />
+           <intercept-url pattern="/employee/SAP/**" access="hasRole('ROLE_SAP')" />
+           <intercept-url pattern="/employee/Sys/**" access="hasRole('ROLE_SYSTEM')" />
+           <intercept-url pattern="/employee/QA/**" access="hasRole('ROLE_QAD')" />
+
+           <form-login login-page="/index"
+                       login-processing-url="/j_spring_security_check"
+                       default-target-url="/auth"
+                       authentication-failure-url="/index?error=true"
+                       username-parameter="user_login"
+                       password-parameter="password_login" />
+           <logout logout-url="/j_spring_security_logout" logout-success-url="/" />
+
+           <headers/>
+
+           <csrf disabled="true"/>
+       </http>
+
+       <beans:bean id="tokenRepository"
+                   class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+           <beans:property name="dataSource" ref="dataSource"/>
+       </beans:bean>
+
+       <beans:bean id="bcrypt" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+           <beans:constructor-arg name="strength" value="11" />
+       </beans:bean>
+
+       <authentication-manager>
+           <authentication-provider>
+               <password-encoder ref="bcrypt" />
+               <!--<user-service>
+                      <user name="user" password="upass" authorities="ROLE_USER" />
+                      <user name="admin" password="apass" authorities="ROLE_ADMIN" />
+               </user-service>-->
+               <jdbc-user-service data-source-ref="dataSource"/>
+           </authentication-provider>
+       </authentication-manager>
+
+</beans:beans>

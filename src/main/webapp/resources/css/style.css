@@ -1,0 +1,138 @@
+@charset "utf-8";
+
+html {
+    background: linear-gradient(7deg, rgb(142, 42, 174), rgb(12, 210, 59));
+    background: -webkit-linear-gradient(7deg, rgb(142, 42, 174), rgb(12, 210, 59));
+}
+
+body {
+    color: #8245ff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+a {
+    font-style: italic;
+    color: aqua;
+}
+
+#containerLogin h1 {
+    background-color: #292829;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+}
+
+#containerLogin {
+    background-color: #363636;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 150px auto;
+    width: 230px;
+    height: 270px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    -webkit-box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+}
+
+#containerLogin a {
+    padding-left: 50%;
+}
+
+#containerLogin form {
+    border: none;
+    padding: 10px 20px 0px 20px;
+}
+
+#containerLogin form input[type="text"] {
+    border: 1px solid #292829;
+    border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    padding: 12px 10px;
+    -webkit-appearance:none;
+}
+
+#containerLogin form input[type="password"] {
+    border: 1px solid #292829;
+    border-radius: 0px 0px 3px 3px;
+    -moz-border-radius: 0px 0px 3px 3px;
+    -webkit-border-radius: 0px 0px 3px 3px;
+    padding: 12px 10px;
+    -webkit-appearance:none;
+}
+
+#containerLogin form input[type="submit"] {
+     background-color: #ebebeb;
+     border: none;
+     border-radius: 3px;
+     -moz-border-radius: 3px;
+     -webkit-border-radius: 3px;
+     color: #404040;
+     cursor: pointer;
+     float: none;
+     font-weight: bold;
+     margin-top: 20px;
+     padding: 5px 12px;
+     -webkit-appearance: none;
+}
+
+#containerLogin form input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+#header {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    width: 370px;
+    margin: 10px;
+    color: cornsilk;
+    float: left;
+}
+
+#header p {
+    font-size: 18px;
+}
+
+#content {
+    float: right;
+    margin: 20px;
+    background-color: darkviolet;
+    color: black;
+    border: 15px solid darkviolet;
+}
+
+#headerTable {
+    background: cadetblue;
+    color: black;
+    border: 5px solid aqua;
+    margin-bottom: 10px;
+}
+
+table {
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+}
+
+TD, TH {
+    padding: 5px; /* Поля вокруг текста */
+    border: 2px solid green; /* Рамка вокруг ячеек */
+    text-align: center; /* Выравнивание по центру */
+}
+
+table input[type="submit"] {
+
+    background-color: cadetblue;
+    border: none;
+    color: #404040;
+    cursor: pointer;
+    font-weight: bold;
+    -webkit-appearance: none;
+}
